@@ -389,8 +389,11 @@
     max-width: 100%;
   }
 
+  /* Photo sits above the intro text on tablet and phone */
   .home-hero-profile {
-    display: none;
+    order: -1;
+    flex: 0 0 auto;
+    width: min(56vw, 230px);
   }
 
   .hero-greeting-badge {

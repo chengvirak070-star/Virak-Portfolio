@@ -7,7 +7,9 @@ import Skills from './pages/Skills';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Footer from './commponants/Footer';
+import Effects from './commponants/Effects';
 import './style/App.css';
+import './style/effects.css';
 
 // Scroll to top automatically when route changes
 function ScrollToTop() {
@@ -26,9 +28,11 @@ function App() {
         <div className="bg-ambient-glow bg-ambient-top" />
         <div className="bg-ambient-glow bg-ambient-bottom" />
         <div className="bg-grid" />
+        <div className="bg-cursor-glow" />
       </div>
 
       <ScrollToTop />
+      <Effects />
       <NavBar />
 
       <main className="app-main">

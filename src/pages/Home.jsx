@@ -1,6 +1,53 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Profile from '../commponants/Profile';
 import '../style/Home.css';
+
+const ROLES = ['Frontend Developer', 'IT Engineering Student @ RUPP', 'React + PHP + MySQL'];
+
+// Types each role out, pauses, deletes it, then moves to the next
+function TypedRoles() {
+  const [reducedMotion] = useState(
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+  const [text, setText] = useState(reducedMotion ? ROLES[0] : '');
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    let role = 0;
+    let chars = 0;
+    let deleting = false;
+    let timer;
+
+    const tick = () => {
+      const full = ROLES[role];
+      chars += deleting ? -1 : 1;
+      setText(full.slice(0, chars));
+
+      let delay = deleting ? 35 : 70;
+      if (!deleting && chars === full.length) {
+        deleting = true;
+        delay = 1700;
+      } else if (deleting && chars === 0) {
+        deleting = false;
+        role = (role + 1) % ROLES.length;
+        delay = 350;
+      }
+      timer = setTimeout(tick, delay);
+    };
+
+    timer = setTimeout(tick, 500);
+    return () => clearTimeout(timer);
+  }, [reducedMotion]);
+
+  return (
+    <p className="hero-typed-line animate-fade-up" aria-label={ROLES.join(', ')}>
+      <span className="hero-typed-prompt" aria-hidden="true">&gt;</span>
+      <span aria-hidden="true">{text}</span>
+      <span className="hero-typed-caret" aria-hidden="true" />
+    </p>
+  );
+}
 
 function Home() {
   const highlights = [
@@ -106,6 +153,8 @@ function Home() {
       {/* Hero Section */}
       <section className="home-hero-section container">
         <div className="home-hero-content">
+          <TypedRoles />
+
           <h1 className="hero-headline animate-fade-up">
             Hi, I'm <span className="gradient-text">Cheng Virak</span>
             <br />

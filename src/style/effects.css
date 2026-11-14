@@ -1,0 +1,726 @@
+/* ==========================================================================
+   EFFECTS LAYER - motion, light and depth on top of the base design.
+   Everything here is driven by the --accent tokens in index.css.
+   ========================================================================== */
+
+::selection {
+  background: rgba(var(--accent-rgb), 0.3);
+  color: var(--text-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--accent-rgb), 0.55);
+}
+
+/* --------------------------------------------------------------------------
+   SCROLL PROGRESS BAR
+   -------------------------------------------------------------------------- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 1100;
+  pointer-events: none;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.2), var(--accent));
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.7);
+}
+
+/* --------------------------------------------------------------------------
+   BACKGROUND - drifting aurora + cursor light
+   -------------------------------------------------------------------------- */
+.bg-ambient-top {
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.14) 0%, rgba(var(--accent-rgb), 0.03) 55%, transparent 80%);
+  animation: auroraTop 20s ease-in-out infinite alternate;
+}
+
+.bg-ambient-bottom {
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+  animation: auroraBottom 24s ease-in-out infinite alternate;
+}
+
+[data-theme="light"] .bg-ambient-top {
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.07) 0%, transparent 70%);
+}
+
+[data-theme="light"] .bg-ambient-bottom {
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.07) 0%, transparent 70%);
+}
+
+/* Light mode: keep the motion, drop the glow */
+[data-theme="light"] .bg-cursor-glow {
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.04) 0%, transparent 65%);
+}
+
+[data-theme="light"] .scroll-progress-bar,
+[data-theme="light"] .clean-nav-link.active::after,
+[data-theme="light"] .hero-typed-caret {
+  box-shadow: none;
+}
+
+[data-theme="light"] .brand-name::after {
+  text-shadow: none;
+}
+
+[data-theme="light"] .glass-card::before,
+[data-theme="light"] .glass-panel::before,
+[data-theme="light"] .project-card::before,
+[data-theme="light"] .clean-profile-showcase::before {
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-rgb), 0.55), transparent 70%);
+}
+
+[data-theme="light"] .glass-card::after,
+[data-theme="light"] .glass-panel::after,
+[data-theme="light"] .project-card::after,
+[data-theme="light"] .clean-profile-showcase::after {
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-rgb), 0.04), transparent 60%);
+}
+
+[data-theme="light"] .clean-profile-showcase {
+  box-shadow: var(--shadow-md);
+}
+
+[data-theme="light"] .btn-glow:hover {
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
+}
+
+[data-theme="light"] .btn-glow::after {
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+}
+
+[data-theme="light"] .highlight-card:hover .highlight-icon-box {
+  box-shadow: none;
+}
+
+.bg-grid {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+}
+
+@keyframes auroraTop {
+  0%   { transform: translateX(-62%) translateY(0) scale(1); }
+  50%  { transform: translateX(-42%) translateY(50px) scale(1.15); }
+  100% { transform: translateX(-54%) translateY(-20px) scale(0.95); }
+}
+
+@keyframes auroraBottom {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-140px, -90px) scale(1.2); }
+}
+
+.bg-cursor-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 560px;
+  height: 560px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.075) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   TEXT - shimmering gradient name
+   -------------------------------------------------------------------------- */
+.gradient-text,
+[data-theme="light"] .gradient-text {
+  background-image: linear-gradient(100deg, var(--text-primary) 0%, var(--accent-soft) 30%, var(--accent) 50%, var(--accent-soft) 70%, var(--text-primary) 100%);
+  background-size: 200% 100%;
+  animation: textShimmer 7s linear infinite;
+}
+
+@keyframes textShimmer {
+  from { background-position: 200% 50%; }
+  to   { background-position: 0% 50%; }
+}
+
+/* --------------------------------------------------------------------------
+   SURFACES - cursor-tracking spotlight on cards and panels
+   -------------------------------------------------------------------------- */
+.glass-card,
+.glass-panel,
+.project-card,
+.clean-profile-showcase {
+  position: relative;
+}
+
+/* Glowing edge that follows the cursor */
+.glass-card::before,
+.glass-panel::before,
+.project-card::before,
+.clean-profile-showcase::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-rgb), 0.85), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Soft wash of light under the cursor */
+.glass-card::after,
+.glass-panel::after,
+.project-card::after,
+.clean-profile-showcase::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-rgb), 0.07), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .glass-card:hover::before,
+  .glass-panel:hover::before,
+  .project-card:hover::before,
+  .clean-profile-showcase:hover::before,
+  .glass-card:hover::after,
+  .glass-panel:hover::after,
+  .project-card:hover::after,
+  .clean-profile-showcase:hover::after {
+    opacity: 1;
+  }
+}
+
+.project-img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card:hover .project-img {
+  transform: scale(1.06);
+}
+
+/* --------------------------------------------------------------------------
+   SCROLL REVEAL (classes are added by Effects.jsx only)
+   -------------------------------------------------------------------------- */
+.reveal-pending {
+  opacity: 0;
+}
+
+.reveal-in {
+  animation: revealUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   BUTTONS - light sweep + arrow nudge
+   -------------------------------------------------------------------------- */
+.btn-glow,
+.btn-primary {
+  overflow: hidden;
+}
+
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -70%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(var(--accent-rgb), 0.45), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.btn-glow:hover::after {
+  left: 130%;
+  transition: left 0.65s ease;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 6px 24px rgba(var(--accent-rgb), 0.3), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.btn-glow svg,
+.btn-glass svg {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-glow:hover svg,
+.btn-glass:hover svg {
+  transform: translateX(3px);
+}
+
+.btn-glass:hover,
+.btn-secondary:hover {
+  border-color: rgba(var(--accent-rgb), 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   NAVBAR
+   -------------------------------------------------------------------------- */
+.brand-name::after {
+  content: '.';
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(var(--accent-rgb), 0.8);
+}
+
+.clean-nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.8);
+  animation: navUnderline 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes navUnderline {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   HOME HERO
+   -------------------------------------------------------------------------- */
+.hero-typed-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 1.6em;
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 1.4vw, 1rem);
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.hero-typed-prompt {
+  color: var(--text-muted);
+}
+
+.hero-typed-caret {
+  width: 0.55em;
+  height: 1.1em;
+  margin-left: -4px;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.7);
+  animation: caretBlink 1s steps(1) infinite;
+}
+
+@keyframes caretBlink {
+  50% { opacity: 0; }
+}
+
+.hero-headline {
+  font-size: clamp(2.2rem, 4.8vw, 3.7rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+@media (max-width: 991px) {
+  .hero-typed-line {
+    justify-content: center;
+  }
+}
+
+/* Tech badges glow in their own brand colour */
+.tech-icon-badge:hover {
+  border-color: color-mix(in srgb, var(--icon-color) 65%, transparent);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 20px color-mix(in srgb, var(--icon-color) 40%, transparent);
+}
+
+/* Floating, tilting profile card */
+.home-hero-profile.animate-fade-up {
+  animation: fadeInUp 0.5s ease-out 0.16s both, floatY 6s ease-in-out 0.8s infinite;
+}
+
+@keyframes floatY {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -10px; }
+}
+
+.clean-profile-showcase {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.2s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: var(--shadow-lg), 0 0 60px rgba(var(--accent-rgb), 0.07);
+}
+
+/* Hero portrait: cutout figure standing in front of a glowing disc */
+@media (min-width: 992px) {
+  .home-hero-profile {
+    flex: 0 0 420px;
+  }
+}
+
+@media (max-width: 991px) {
+  .home-hero-profile {
+    width: min(74vw, 270px);
+  }
+}
+
+.hero-cutout {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Soft light behind everything */
+.hero-cutout::before {
+  content: '';
+  position: absolute;
+  inset: 0 -12% -4%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.2) 0%, transparent 65%);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.hero-cutout-ring {
+  position: absolute;
+  left: 50%;
+  bottom: 5%;
+  width: 84%;
+  aspect-ratio: 1;
+  translate: -50% 0;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  background:
+    radial-gradient(circle at 50% 25%, rgba(var(--accent-rgb), 0.2) 0%, rgba(var(--accent-rgb), 0.05) 55%, transparent 78%),
+    var(--bg-secondary);
+  box-shadow: inset 0 0 60px rgba(var(--accent-rgb), 0.08), 0 0 50px rgba(var(--accent-rgb), 0.1);
+}
+
+/* Slowly turning dashed orbit */
+.hero-cutout-ring::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 1px dashed var(--border-medium);
+  animation: ringSpin 60s linear infinite;
+}
+
+/* Figure + the light that travels around its outline */
+.hero-cutout-figure {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 368 / 771;
+  /* Fade the bottom edge so the figure dissolves instead of ending in a hard cut */
+  -webkit-mask-image: linear-gradient(180deg, #000 84%, transparent 99%);
+  mask-image: linear-gradient(180deg, #000 84%, transparent 99%);
+}
+
+.hero-cutout-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.45));
+}
+
+.hero-outline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hero-outline path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Faint constant rim light */
+.hero-outline-base {
+  stroke: rgba(var(--accent-rgb), 0.22);
+  stroke-width: 1.5;
+}
+
+/* Two glowing trails chasing each other around the silhouette */
+.hero-outline-trail {
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-dasharray: 16 34;
+  filter: drop-shadow(0 0 5px rgba(var(--accent-rgb), 0.95)) drop-shadow(0 0 14px rgba(var(--accent-rgb), 0.6));
+  animation: outlineTrail 7s linear infinite;
+}
+
+/* Bright tip at the front of each trail */
+.hero-outline-head {
+  stroke: #fff7d6;
+  stroke-width: 3.5;
+  stroke-dasharray: 2.5 47.5;
+  filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 12px rgba(var(--accent-rgb), 1));
+  animation: outlineHead 7s linear infinite;
+}
+
+@keyframes outlineTrail {
+  from { stroke-dashoffset: 100; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes outlineHead {
+  from { stroke-dashoffset: 86.5; }
+  to   { stroke-dashoffset: -13.5; }
+}
+
+[data-theme="light"] .hero-outline-trail {
+  filter: drop-shadow(0 0 4px rgba(var(--accent-rgb), 0.6));
+}
+
+[data-theme="light"] .hero-outline-head {
+  stroke: var(--accent-soft);
+  filter: drop-shadow(0 0 5px rgba(var(--accent-rgb), 0.7));
+}
+
+/* Floating info chips */
+.hero-chip {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--bg-card) 82%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-md);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  animation: floatY 5s ease-in-out infinite;
+}
+
+.hero-chip svg {
+  color: var(--accent);
+}
+
+.hero-chip-status {
+  top: 24%;
+  left: -6%;
+}
+
+.hero-chip-location {
+  bottom: 17%;
+  right: -4%;
+  animation-delay: -2.5s;
+}
+
+[data-theme="light"] .hero-cutout::before {
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.1) 0%, transparent 65%);
+}
+
+[data-theme="light"] .hero-cutout-ring {
+  box-shadow: none;
+}
+
+[data-theme="light"] .hero-cutout-img {
+  filter: drop-shadow(0 12px 20px rgba(15, 23, 42, 0.22));
+}
+
+@media (max-width: 991px) {
+  .hero-chip {
+    padding: 5px 10px;
+    gap: 6px;
+    font-size: 0.66rem;
+  }
+
+  .hero-chip-status {
+    left: -8%;
+  }
+
+  .hero-chip-location {
+    right: -8%;
+  }
+}
+
+/* Rotating light ring around the avatar */
+.avatar-frame {
+  border-color: transparent;
+}
+
+.avatar-frame::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  padding: 2px;
+  background: conic-gradient(from 0deg, transparent 0%, transparent 45%, var(--accent) 85%, var(--text-primary) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: ringSpin 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes ringSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Highlight cards */
+.highlight-icon-box {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.highlight-card:hover .highlight-icon-box {
+  transform: translateY(-2px) rotate(-6deg) scale(1.08);
+  background: rgba(var(--accent-rgb), 0.12);
+  border-color: rgba(var(--accent-rgb), 0.4);
+  box-shadow: 0 0 22px rgba(var(--accent-rgb), 0.3);
+}
+
+[data-theme="light"] .highlight-icon-box {
+  color: var(--accent);
+}
+
+/* CTA banner */
+.cta-banner {
+  background:
+    radial-gradient(600px circle at 0% 0%, rgba(var(--accent-rgb), 0.1), transparent 60%),
+    var(--bg-card);
+}
+
+/* --------------------------------------------------------------------------
+   REDUCED MOTION
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .bg-ambient-top,
+  .bg-ambient-bottom,
+  .gradient-text,
+  .avatar-frame::before,
+  .hero-typed-caret,
+  .hero-chip,
+  .hero-outline-trail,
+  .hero-outline-head,
+  .hero-cutout-ring::before,
+  .clean-nav-link.active::after {
+    animation: none;
+  }
+
+  .home-hero-profile.animate-fade-up {
+    animation: fadeInUp 0.5s ease-out 0.16s both;
+  }
+
+  .bg-cursor-glow {
+    display: none;
+  }
+
+  .btn-glow::after {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   CAMBODIAN LOOK - Angkor Wat skyline, textile lattice, diamond ornaments
+   ========================================================================== */
+
+/* Background: diamond lattice, like woven Khmer silk, instead of plain dots */
+.bg-grid {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cpath d='M22 1 43 22 22 43 1 22Z' fill='none' stroke='%23fff' stroke-opacity='.05'/%3E%3Cpath d='M22 17l5 5-5 5-5-5z' fill='%23fbbf24' fill-opacity='.07'/%3E%3C/svg%3E");
+  background-size: 44px 44px;
+}
+
+[data-theme="light"] .bg-grid {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cpath d='M22 1 43 22 22 43 1 22Z' fill='none' stroke='%230f172a' stroke-opacity='.05'/%3E%3Cpath d='M22 17l5 5-5 5-5-5z' fill='%23b45309' fill-opacity='.08'/%3E%3C/svg%3E");
+}
+
+/* Angkor Wat skyline rising inside the hero disc, behind the figure */
+.hero-ring-angkor {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.hero-ring-angkor::before {
+  content: '';
+  position: absolute;
+  left: -25%;
+  right: -25%;
+  bottom: 9%;
+  aspect-ratio: 2 / 1;
+  background: linear-gradient(180deg, var(--accent) 0%, rgba(var(--accent-rgb), 0.35) 100%);
+  opacity: 0.32;
+  -webkit-mask: url("../assets/angkor.svg") center bottom / 100% 100% no-repeat;
+  mask: url("../assets/angkor.svg") center bottom / 100% 100% no-repeat;
+}
+
+/* Ground haze under the temple */
+.hero-ring-angkor::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22%;
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.14), transparent);
+}
+
+/* Angkor Wat skyline standing on the footer's top edge */
+.modern-footer::before {
+  content: '';
+  position: absolute;
+  right: 6%;
+  bottom: 100%;
+  width: min(320px, 46vw);
+  aspect-ratio: 2 / 1;
+  background: var(--text-primary);
+  opacity: 0.07;
+  pointer-events: none;
+  -webkit-mask: url("../assets/angkor.svg") center bottom / 100% 100% no-repeat;
+  mask: url("../assets/angkor.svg") center bottom / 100% 100% no-repeat;
+}
+
+/* Diamond ornament under centred titles */
+.page-header .page-title::after,
+.section-title-wrap.text-center .section-title::after {
+  content: '';
+  display: block;
+  width: 132px;
+  height: 16px;
+  margin: 14px auto 2px;
+  background: var(--accent);
+  opacity: 0.85;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 132 16'%3E%3Cpath d='M0 8h42M90 8h42' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M66 1l7 7-7 7-7-7z'/%3E%3Cpath d='M51 8l3.5-3.5L58 8l-3.5 3.5zM74 8l3.5-3.5L81 8l-3.5 3.5z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 132 16'%3E%3Cpath d='M0 8h42M90 8h42' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M66 1l7 7-7 7-7-7z'/%3E%3Cpath d='M51 8l3.5-3.5L58 8l-3.5 3.5zM74 8l3.5-3.5L81 8l-3.5 3.5z'/%3E%3C/svg%3E") center / contain no-repeat;
+}

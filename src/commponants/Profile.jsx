@@ -1,41 +1,42 @@
-import profilePic from '../assets/profile.jpg';
+import heroCutout from '../assets/hero-cutout.png';
+import { HERO_OUTLINE_PATH, HERO_OUTLINE_VIEWBOX } from './heroOutline';
 
 function Profile() {
   return (
-    <div className="clean-profile-showcase">
-      {/* Avatar Container */}
-      <div className="avatar-wrapper">
-        <div className="avatar-frame">
-          <img
-            src={profilePic}
-            alt="Cheng Virak"
-            className="profile-avatar-img"
-          />
-          <div className="avatar-status-badge" title="Available for projects">
-            <span className="status-dot"></span>
-          </div>
-        </div>
+    <figure className="hero-cutout">
+      {/* Backdrop disc that anchors the figure to the page */}
+      <span className="hero-cutout-ring" aria-hidden="true">
+        {/* Angkor Wat skyline inside the disc */}
+        <span className="hero-ring-angkor" />
+      </span>
+
+      <div className="hero-cutout-figure">
+        <img
+          src={heroCutout}
+          alt="Cheng Virak in traditional Khmer dress"
+          className="hero-cutout-img"
+        />
+
+        {/* Light that travels around the outline of the figure */}
+        <svg className="hero-outline" viewBox={HERO_OUTLINE_VIEWBOX} aria-hidden="true">
+          <path className="hero-outline-base" d={HERO_OUTLINE_PATH} />
+          <path className="hero-outline-trail" d={HERO_OUTLINE_PATH} pathLength="100" />
+          <path className="hero-outline-head" d={HERO_OUTLINE_PATH} pathLength="100" />
+        </svg>
       </div>
 
-      {/* Profile Details */}
-      <div className="profile-bio-info">
-        <h3 className="profile-name">Cheng Virak</h3>
-        <p className="profile-role">ITE Student & Full Stack Developer</p>
-        <div className="profile-location">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-          </svg>
-          <span>RUPP • Phnom Penh, Cambodia</span>
-        </div>
-      </div>
+      <span className="hero-chip hero-chip-status">
+        <span className="status-dot" aria-hidden="true" />
+        Open to internships
+      </span>
 
-      {/* Clean Highlights */}
-      <div className="profile-tags-row">
-        <span className="tech-tag">React.js</span>
-        <span className="tech-tag">JavaScript</span>
-        <span className="tech-tag">PHP & MySQL</span>
-      </div>
-    </div>
+      <span className="hero-chip hero-chip-location">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+        </svg>
+        RUPP · Phnom Penh
+      </span>
+    </figure>
   );
 }
 

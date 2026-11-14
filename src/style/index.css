@@ -33,6 +33,11 @@
   --primary-cyan: #38bdf8;
   --primary-blue: #60a5fa;
 
+  /* Signature accent (used by effects.css) */
+  --accent: #fbbf24;
+  --accent-soft: #fde68a;
+  --accent-rgb: 245, 158, 11;
+
   /* Shadows */
   --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.4);
@@ -45,8 +50,8 @@
   --radius-full: 9999px;
 
   /* Typography */
-  --font-heading: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Outfit', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Smooth Transitions */
@@ -58,12 +63,13 @@
    LIGHT MODE THEME SYSTEM
    -------------------------------------------------------------------------- */
 [data-theme="light"] {
-  --bg-dark: #f8fafc;
-  --bg-secondary: #ffffff;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f1f5f9;
-  --bg-subtle: rgba(0, 0, 0, 0.03);
-  --bg-elevated: #e2e8f0;
+  /* Soft grey-blue paper instead of pure white, so the page doesn't glare */
+  --bg-dark: #e6eaf0;
+  --bg-secondary: #eef1f5;
+  --bg-card: #f3f5f8;
+  --bg-card-hover: #f9fafb;
+  --bg-subtle: rgba(0, 0, 0, 0.04);
+  --bg-elevated: #d8dee6;
 
   /* Light mode borders */
   --border-subtle: rgba(0, 0, 0, 0.08);
@@ -75,10 +81,15 @@
   /* Text Hierarchy in Light */
   --text-primary: #0f172a;
   --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-muted: #64748b;
   --text-gradient: linear-gradient(180deg, #0f172a 0%, #334155 100%);
   --accent-gradient: linear-gradient(180deg, #0f172a 0%, #475569 100%);
   --accent-gradient-2: linear-gradient(180deg, #0f172a 0%, #334155 100%);
+
+  /* Accent in Light (darker amber for contrast on white) */
+  --accent: #b45309;
+  --accent-soft: #d97706;
+  --accent-rgb: 217, 119, 6;
 
   /* Shadows in Light */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
