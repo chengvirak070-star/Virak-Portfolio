@@ -271,8 +271,8 @@ function Skills() {
 
         {/* Skills Grid */}
         <div className="skills-interactive-grid mb-5 animate-fade-up delay-2">
-          {filteredSkills.map((skill, idx) => (
-            <div key={idx} className="skill-card glass-card">
+          {filteredSkills.map((skill) => (
+            <div key={skill.name} className="skill-card glass-card" style={{ '--skill-color': skill.color }}>
               <div className="skill-card-top">
                 <div className="skill-icon-wrap">
                   <span className="skill-icon">{skill.icon}</span>
@@ -307,7 +307,8 @@ function Skills() {
 
           <div className="roadmap-grid">
             {roadmapItems.map((item, idx) => (
-              <div key={idx} className="roadmap-card glass-card">
+              <div key={idx} className="roadmap-card glass-card" data-status={item.status}>
+                <span className="roadmap-step" aria-hidden="true">0{idx + 1}</span>
                 <div className="roadmap-top">
                   <span className="roadmap-icon">{item.icon}</span>
                   <span className="roadmap-badge">{item.status}</span>
@@ -330,14 +331,21 @@ function Skills() {
         </section>
 
         {/* Action Banner */}
-        <div className="skills-cta-wrap mt-5 text-center">
-          <p className="skills-cta-text">Want to see these skills in real-world application?</p>
-          <div className="d-flex justify-content-center gap-3">
+        <section className="skills-cta-wrap cta-banner glass-panel mt-5">
+          <span className="cta-angkor" aria-hidden="true" />
+          <div className="cta-content">
+            <h2 className="cta-title">Want to see these skills in real-world application?</h2>
+            <p className="cta-desc">Browse the projects I built with this stack.</p>
+          </div>
+          <div className="cta-actions">
             <Link to="/projects" className="btn-glow">
-              <span>View Projects Built With These Skills</span>
+              <span>View Projects</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+              </svg>
             </Link>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

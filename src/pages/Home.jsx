@@ -60,7 +60,8 @@ function Home() {
         </svg>
       ),
       title: 'Frontend Development',
-      desc: 'Building responsive, accessible web interfaces using modern React, JavaScript (ES6+), and clean CSS.'
+      desc: 'Building responsive, accessible web interfaces using modern React, JavaScript (ES6+), and clean CSS.',
+      tags: ['React', 'JavaScript', 'CSS']
     },
     {
       icon: (
@@ -71,7 +72,8 @@ function Home() {
         </svg>
       ),
       title: 'Backend & Databases',
-      desc: 'Working with PHP, RESTful API endpoints, and structured relational database schemas with MySQL.'
+      desc: 'Working with PHP, RESTful API endpoints, and structured relational database schemas with MySQL.',
+      tags: ['PHP', 'REST API', 'MySQL']
     },
     {
       icon: (
@@ -80,7 +82,8 @@ function Home() {
         </svg>
       ),
       title: 'Clean Code & Performance',
-      desc: 'Writing structured, maintainable code with Git version control and modern build tooling.'
+      desc: 'Writing structured, maintainable code with Git version control and modern build tooling.',
+      tags: ['Git', 'Vite', 'ESLint']
     }
   ];
 
@@ -222,9 +225,15 @@ function Home() {
         <div className="highlights-grid">
           {highlights.map((item, idx) => (
             <div key={idx} className="highlight-card glass-card">
+              <span className="highlight-index" aria-hidden="true">0{idx + 1}</span>
               <div className="highlight-icon-box">{item.icon}</div>
               <h3 className="highlight-title">{item.title}</h3>
               <p className="highlight-desc">{item.desc}</p>
+              <div className="highlight-tags">
+                {item.tags.map((tag) => (
+                  <span key={tag} className="tech-tag">{tag}</span>
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -233,7 +242,12 @@ function Home() {
       {/* Call to Action Banner */}
       <section className="cta-banner-section container">
         <div className="cta-banner glass-panel">
+          <span className="cta-angkor" aria-hidden="true" />
           <div className="cta-content">
+            <span className="cta-eyebrow">
+              <span className="status-dot" aria-hidden="true" />
+              Available for work
+            </span>
             <h2 className="cta-title">Looking for an intern or junior developer?</h2>
             <p className="cta-desc">
               I am open to internship and junior engineering opportunities in web and software development.

@@ -7,9 +7,71 @@ function About() {
     {
       degree: 'Bachelor of Science in Information Technology Engineering',
       institution: 'Royal University of Phnom Penh (RUPP)',
-      period: '2022 - Present',
+      period: '2024 - Present',
       description: 'Focusing on core computer science foundations, algorithms, relational database design, data structures, network security, and software engineering methodologies.',
       status: 'Current Student'
+    },
+    {
+      degree: 'Baccalaureate II (Bac II)',
+      institution: 'National High School Examination, Cambodia',
+      period: '2023 - 2024',
+      description: 'Completed upper secondary school and passed the national Bac II examination.',
+      status: 'Completed'
+    }
+  ];
+
+  const certificates = [
+    {
+      title: 'Full-Stack Development 101',
+      issuer: 'Simplilearn SkillUp',
+      type: 'Certificate of Completion',
+      date: '14 November 2026',
+      code: '11032507'
+    },
+    {
+      title: 'Introduction to Design Patterns',
+      issuer: 'Simplilearn SkillUp',
+      type: 'Certificate of Completion',
+      date: '25 July 2026',
+      code: '10511567'
+    }
+  ];
+
+  const journey = [
+    {
+      phase: '2023 - 2024',
+      title: 'Passed Bac II',
+      text: 'I finished upper secondary school and passed the national Baccalaureate II examination, which opened the way to university.'
+    },
+    {
+      phase: '2024',
+      title: 'Started at RUPP',
+      text: 'I joined the Information Technology Engineering program at the Royal University of Phnom Penh. The early courses gave me the base I still rely on: algorithms, data structures, databases and networking.'
+    },
+    {
+      phase: 'Foundations',
+      title: 'Learning the web',
+      text: 'Alongside my classes I learned HTML, CSS and JavaScript, then moved on to React. Coursework added Java and Python, and I picked up PHP with MySQL for the server side.'
+    },
+    {
+      phase: 'First builds',
+      title: 'Shipping my own projects',
+      text: 'C-Shop, an online clothing store interface, was my first complete React project: product browsing, category filters and a cart view. This portfolio came next, built with React 19 and Vite on a design system I wrote in plain CSS.'
+    },
+    {
+      phase: 'Teamwork',
+      title: 'Building with classmates',
+      text: 'I worked with teammates on two full-stack apps that are live today: a car marketplace built with React and Bootstrap and deployed on Railway, and Lost and Found, built with React, Node.js and MongoDB. Sharing one repository showed me why clear commits and an agreed structure matter.'
+    },
+    {
+      phase: 'Now',
+      title: 'Still learning',
+      text: 'I am working through Next.js and TypeScript, with Laravel and Docker next on my list.'
+    },
+    {
+      phase: 'Next',
+      title: 'Looking for my first role',
+      text: 'I am looking for an internship or junior position, in Cambodia or remote, where I can work on real products alongside experienced engineers.'
     }
   ];
 
@@ -159,6 +221,8 @@ function About() {
     }
   ];
 
+  const totalTools = toolkitCategories.reduce((sum, group) => sum + group.skills.length, 0);
+
   return (
     <div className="about-page-container page-wrapper">
       <div className="container">
@@ -175,29 +239,28 @@ function About() {
 
         {/* Hero Story Section */}
         <section className="about-hero-grid glass-panel mb-5 animate-fade-up delay-1">
-          <div className="about-hero-profile-header">
-            <div className="about-avatar-wrapper">
-              <img src={profilePic} alt="Cheng Virak" className="about-avatar-img" />
-              <span className="about-avatar-dot" title="Available for opportunities"></span>
+          {/* Portrait with an offset gold frame */}
+          <div className="about-portrait">
+            <div className="about-portrait-frame">
+              <img src={profilePic} alt="Cheng Virak" className="about-portrait-img" />
             </div>
-            <div className="about-identity-info">
-              <div className="about-badge-row">
-                <span className="about-status-pill">
-                  <span className="live-dot"></span> Open to Opportunities
-                </span>
-                <span className="about-location-pill">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-                  </svg>
-                  Phnom Penh, Cambodia
-                </span>
-              </div>
-              <h2 className="about-name">Cheng Virak</h2>
-              <p className="about-role">IT Engineering Student & Full-Stack Developer</p>
-            </div>
+            <span className="about-status-pill about-portrait-status">
+              <span className="live-dot"></span> Open to Opportunities
+            </span>
           </div>
 
           <div className="about-bio-content">
+            <div className="about-identity-info">
+              <span className="about-location-pill">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                </svg>
+                Phnom Penh, Cambodia
+              </span>
+              <h2 className="about-name">Cheng Virak</h2>
+              <p className="about-role">IT Engineering Student & Full-Stack Developer</p>
+            </div>
+
             <h3 className="bio-headline">
               Crafting responsive web applications with <span className="gradient-text">engineering precision</span>.
             </h3>
@@ -207,6 +270,24 @@ function About() {
             <p className="bio-body">
               I enjoy building clean, functional web applications. My coursework and self-directed projects span frontend development with React, backend integration with PHP, and structured database design with MySQL.
             </p>
+            <p className="bio-body">
+              I am a Cambodian developer based in Phnom Penh. I like projects where I can follow the whole path, from the database table to the button a person clicks, and I have built that path both on my own and as part of a team.
+            </p>
+
+            <dl className="about-stats">
+              <div className="about-stat">
+                <dt>At RUPP since</dt>
+                <dd>2024</dd>
+              </div>
+              <div className="about-stat">
+                <dt>Tools &amp; technologies</dt>
+                <dd>{totalTools}</dd>
+              </div>
+              <div className="about-stat">
+                <dt>Stack areas</dt>
+                <dd>{toolkitCategories.length}</dd>
+              </div>
+            </dl>
 
             <div className="about-quick-tags">
               <span className="tech-tag">React.js</span>
@@ -228,6 +309,26 @@ function About() {
               </Link>
             </div>
           </div>
+        </section>
+
+        {/* Journey Timeline */}
+        <section className="about-section mb-5">
+          <div className="section-header-compact">
+            <span className="section-tag">My Journey</span>
+            <h2 className="section-heading">How I Got Here</h2>
+          </div>
+
+          <ol className="journey-list">
+            {journey.map((step) => (
+              <li key={step.phase} className="journey-item">
+                <div className="journey-card glass-card">
+                  <span className="journey-phase">{step.phase}</span>
+                  <h3 className="journey-title">{step.title}</h3>
+                  <p className="journey-text">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </section>
 
         {/* Education & Academic Timeline */}
@@ -260,6 +361,36 @@ function About() {
           </div>
         </section>
 
+        {/* Certificates */}
+        <section className="about-section mb-5">
+          <div className="section-header-compact">
+            <span className="section-tag">Courses</span>
+            <h2 className="section-heading">Certificates</h2>
+          </div>
+
+          <div className="cert-grid">
+            {certificates.map((cert) => (
+              <div key={cert.code} className="cert-card glass-card">
+                <div className="cert-medal" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="6"/>
+                    <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+                  </svg>
+                </div>
+                <div className="cert-info">
+                  <span className="cert-type">{cert.type}</span>
+                  <h3 className="cert-title">{cert.title}</h3>
+                  <p className="cert-issuer">{cert.issuer}</p>
+                  <div className="cert-meta">
+                    <span className="cert-date">{cert.date}</span>
+                    <span className="cert-code">Certificate code: {cert.code}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Technical Toolkit Matrix */}
         <section className="about-section mb-5">
           <div className="section-header-compact">
@@ -269,7 +400,7 @@ function About() {
 
           <div className="toolkit-matrix-grid">
             {toolkitCategories.map((group, idx) => (
-              <div key={idx} className="toolkit-group-card glass-card">
+              <div key={idx} className="toolkit-group-card glass-card" style={{ '--group-color': group.color }}>
                 <div className="group-header">
                   <div className="group-header-left">
                     <span className="group-accent-dot" style={{ background: group.color }} />
@@ -300,6 +431,7 @@ function About() {
           <div className="principles-grid">
             {engineeringPrinciples.map((item, idx) => (
               <div key={idx} className="principle-card glass-card">
+                <span className="principle-index" aria-hidden="true">0{idx + 1}</span>
                 <div className="principle-icon">{item.icon}</div>
                 <h3 className="principle-title">{item.title}</h3>
                 <p className="principle-description">{item.description}</p>
@@ -309,14 +441,20 @@ function About() {
         </section>
 
         {/* Contact Banner */}
-        <section className="about-connect-banner glass-panel">
-          <div className="banner-text">
-            <h2>Ready to start a conversation?</h2>
-            <p>Whether you have a technical question or an internship opening, feel free to reach out.</p>
+        <section className="about-connect-banner cta-banner glass-panel">
+          <span className="cta-angkor" aria-hidden="true" />
+          <div className="cta-content">
+            <h2 className="cta-title">Ready to start a conversation?</h2>
+            <p className="cta-desc">Whether you have a technical question or an internship opening, feel free to reach out.</p>
           </div>
-          <Link to="/contact" className="btn-glow">
-            <span>Send Me a Message</span>
-          </Link>
+          <div className="cta-actions">
+            <Link to="/contact" className="btn-glow">
+              <span>Send Me a Message</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+              </svg>
+            </Link>
+          </div>
         </section>
       </div>
     </div>

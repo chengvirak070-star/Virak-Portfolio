@@ -6,7 +6,8 @@ function CardProject({
   demoUrl = '#', 
   githubUrl = 'https://github.com/cheng-virak',
   featured = false,
-  isTeamProject = false
+  isTeamProject = false,
+  index
 }) {
   const hasDemo = demoUrl && demoUrl !== '#';
 
@@ -25,6 +26,9 @@ function CardProject({
       </div>
 
       <div className="project-body">
+        {index != null && (
+          <span className="project-index" aria-hidden="true">{String(index).padStart(2, '0')}</span>
+        )}
         <div className="project-tags">
           {tags.map((tag, idx) => (
             <span key={idx} className="tech-tag">{tag}</span>
